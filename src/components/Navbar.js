@@ -1,15 +1,16 @@
 import React from 'react'
 import logo from '../images/Insta_logo.png'
 import './Navbar.css'
+import {Link} from 'react-router-dom'
 
 export default function Navbar() {
   return (
     <div className='navbar'>
         <img src={logo} alt="" />
         <ul className='nav-menu'>
-            <li>SignUp</li>
-            <li>SignIn</li>
-            <li>Profile</li>
+            <Link to="/signup"> <li>SignUp</li> </Link>
+            <Link to="/signin"> <li>SignIn</li> </Link> 
+            <Link to="/profile"> <li>Profile</li> </Link> 
         </ul>
     </div>
   )
