@@ -3,7 +3,6 @@ import logo from '../images/Insta_logo.png'
 import './SignUp.css'
 import {Link, useNavigate} from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function SignUp() {

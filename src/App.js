@@ -6,6 +6,7 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Profile from './components/Profile';
 import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
