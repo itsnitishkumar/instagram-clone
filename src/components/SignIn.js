@@ -1,21 +1,64 @@
-import React from 'react'
+import React,{useState} from 'react'
 import logo from '../images/Insta_logo.png'
 import './SignIn.css'
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function SignIn() {
+
+  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  //Toast functions
+  const notifyA = (data)=> toast.error(data)
+  const notifyB = (data)=> toast.success(data)
+
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+  const postUser = ()=> {
+
+  //checking email
+  if(!emailRegex.test(email)){
+    notifyA('Invalid email');
+    return
+  }
+
+  fetch('http://localhost:5001/signin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password
+    })
+  }).then(response => response.json())
+    .then(data => {
+      if(data.error){
+        notifyA(data.error)
+      }else{
+        notifyB(data.message)
+        navigate('/');
+      }
+      console.log('Success:', data);
+    })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
   return (
     <div className='signIn'>
       <div>
         <div className="loginForm">
           <img src={logo} alt="" className="signUpLogo" />
           <div>
-            <input type="email" name='email' id='email' placeholder='Email' />
+            <input type="email" name='email' id='email' placeholder='Email' value={email} onChange={(e)=>setEmail(e.target.value)}/>
           </div>
           <div>
-            <input type="password" name='password' id='password' placeholder='Password' />
+            <input type="password" name='password' id='password' placeholder='Password' value={password} onChange={(e)=>setPassword(e.target.value)}/>
           </div>
-          <input type="submit" id='login-btn' value="Sign In"/>
+          <input type="submit" id='login-btn' value="Sign In" onClick={()=>{postUser()}}/>
         </div>
 
         <div className="loginForm2">
