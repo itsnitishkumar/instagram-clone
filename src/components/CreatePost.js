@@ -1,15 +1,22 @@
-import React from 'react'
+import React,{useState} from 'react'
 import './CreatePost.css'
 
 export default function CreatePost() {
+
+  const [body, setBody] = useState("")
+  const [image, setImage] = useState("")
+
+  const postDetails = () => {
+    console.log(body, image);
+  }
 
   const loadfile = (event)=>{
     var output = document.getElementById('output');
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function() {
-    URL.revokeObjectURL(output.src) // free memory
+      URL.revokeObjectURL(output.src) // free memory
     }
-    }
+  }
     
   return (
     <div className='createPost'>
@@ -17,13 +24,17 @@ export default function CreatePost() {
         {/* header */}
         <div className="post-header">
             <h4 style={{margin: "3px auto"}}>Create New Post</h4>
-            <button id='post-btn'>Share</button>
+            <button id='post-btn' onClick={()=>{postDetails()}}>Share</button>
         </div>
 
         {/* image preview */}
         <div className="main-div">
             <img src="https://cdn-icons-png.flaticon.com/512/1160/1160358.png" alt="" id='output'/>
-            <input type="file" accept='image/*' onChange={(event)=> loadfile(event)}/>
+            <input type="file" accept='image/*' 
+            onChange={(event) => {
+              loadfile(event) 
+              setImage(event.target.files[0])
+            }}/>
         </div>
 
         {/* details */}
@@ -34,7 +45,7 @@ export default function CreatePost() {
                 </div>
                 <h5>Ramesh</h5>
             </div>
-            <textarea type="text" placeholder='Write a caption'></textarea>
+            <textarea type="text" placeholder='Write a caption' value={body} onChange={(e)=>{setBody(e.target.value)}}></textarea>
         </div>
     </div>
   )
