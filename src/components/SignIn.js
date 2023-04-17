@@ -39,6 +39,8 @@ export default function SignIn() {
         notifyA(data.error)
       }else{
         notifyB(data.message)
+        console.log(data.token);
+        localStorage.setItem("jwt",data.token)
         navigate('/');
       }
       console.log('Success:', data);

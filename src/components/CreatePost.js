@@ -25,8 +25,9 @@ export default function CreatePost() {
     //saving post to mongodb
     fetch("http://localhost:5001/createPost", {
       method: "post",
-      header: {
-        "Content-Type" : "application/json"
+      headers: {
+        "Content-Type" : "application/json",
+        "Authorization" : "Bearer " + localStorage.getItem("jwt")
       },
       body: JSON.stringify({
         body, pic: url
