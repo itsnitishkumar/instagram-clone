@@ -24,7 +24,7 @@ export default function Home() {
   }).then(res=>res.json())
   .then(result=> setData(result))
   .catch(err => console.log(err))
-  })
+  },[])
   
 
   return (
