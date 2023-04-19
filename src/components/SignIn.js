@@ -1,10 +1,13 @@
-import React,{useState} from 'react'
+import React,{useState, useContext} from 'react'
 import logo from '../images/Insta_logo.png'
 import './SignIn.css'
 import {Link, useNavigate} from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { LoginContext } from '../context/LoginContext';
 
 export default function SignIn() {
+
+  const {setUserLogin} = useContext(LoginContext)
 
   const navigate = useNavigate()
   const [email, setEmail] = useState("");
@@ -41,6 +44,7 @@ export default function SignIn() {
         notifyB(data.message)
         console.log(data.token);
         localStorage.setItem("jwt",data.token)
+        setUserLogin(true)
         navigate('/');
       }
       console.log('Success:', data);
