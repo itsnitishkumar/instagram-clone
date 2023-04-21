@@ -51,6 +51,9 @@ export default function Home() {
                 <span className="material-symbols-outlined">
                   favorite
                 </span>
+                <span className="material-symbols-outlined material-symbols-outlined-red">
+                  favorite
+                </span>
                 <p>1 Like</p>
                 <p>{posts.body}</p>
               </div>
