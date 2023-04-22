@@ -26,6 +26,37 @@ export default function Home() {
   .catch(err => console.log(err))
   },[])
   
+  const likePost = (id)=>{
+    fetch("http://localhost:5001/like", {
+      method: "put",
+      headers: {
+        "Content-Type" : "application/json",
+        "Authorization" : "Bearer " + localStorage.getItem("jwt")
+      },
+      body: JSON.stringify({
+        postId: id
+      })
+    }).then(res=> res.json())
+    .then((result)=>{
+      console.log(result);
+    })
+  }
+
+  const unlikePost = (id)=>{
+    fetch("http://localhost:5001/unlike", {
+      method: "put",
+      headers: {
+        "Content-Type" : "application/json",
+        "Authorization" : "Bearer " + localStorage.getItem("jwt")
+      },
+      body: JSON.stringify({
+        postId: id
+      })
+    }).then(res=> res.json())
+    .then((result)=>{
+      console.log(result);
+    })
+  }
 
   return (
     <div className='home'>
@@ -48,10 +79,10 @@ export default function Home() {
 
               {/* card content */}
               <div className="card-content">
-                <span className="material-symbols-outlined">
+                <span className="material-symbols-outlined" onClick={()=> likePost(posts._id)}>
                   favorite
                 </span>
-                <span className="material-symbols-outlined material-symbols-outlined-red">
+                <span className="material-symbols-outlined material-symbols-outlined-red" onClick={()=> unlikePost(posts._id)}>
                   favorite
                 </span>
                 <p>1 Like</p>
