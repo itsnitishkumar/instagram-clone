@@ -1,16 +1,16 @@
-import './App.css';
+import './components/styles/App.css';
 import React,{ useState} from 'react';
 import { LoginContext } from './context/LoginContext';
-import Navbar from './components/Navbar';
+import Navbar from './components/screens/Navbar';
 import { BrowserRouter,Routes, Route} from 'react-router-dom'
-import Home from './components/Home';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import Profile from './components/Profile';
+import Home from './components/screens/Home';
+import SignUp from './components/screens/SignUp';
+import SignIn from './components/screens/SignIn';
+import Profile from './components/screens/Profile';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CreatePost from './components/CreatePost';
-import Modal from './components/Modal';
+import CreatePost from './components/screens/CreatePost';
+import Modal from './components/screens/Modal';
 
 function App() {
 

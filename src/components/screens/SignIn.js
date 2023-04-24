@@ -1,9 +1,9 @@
 import React,{useState, useContext} from 'react'
-import logo from '../images/Insta_logo.png'
-import './SignIn.css'
+import logo from '../../images/Insta_logo.png'
+import '../styles/SignIn.css'
 import {Link, useNavigate} from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { LoginContext } from '../context/LoginContext';
+import { LoginContext } from '../../context/LoginContext';
 
 export default function SignIn() {
 
