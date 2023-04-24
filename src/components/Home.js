@@ -38,6 +38,14 @@ export default function Home() {
       })
     }).then(res=> res.json())
     .then((result)=>{
+      const newData = data.map((posts)=>{
+        if(posts._id === result._id){
+          return result
+        }else{
+          return posts
+        }
+      })
+      setData(newData)
       console.log(result);
     })
   }
@@ -54,6 +62,14 @@ export default function Home() {
       })
     }).then(res=> res.json())
     .then((result)=>{
+      const newData = data.map((posts)=>{
+        if(posts._id === result._id){
+          return result
+        }else{
+          return posts
+        }
+      })
+      setData(newData)
       console.log(result);
     })
   }
@@ -79,13 +95,23 @@ export default function Home() {
 
               {/* card content */}
               <div className="card-content">
-                <span className="material-symbols-outlined" onClick={()=> likePost(posts._id)}>
-                  favorite
-                </span>
-                <span className="material-symbols-outlined material-symbols-outlined-red" onClick={()=> unlikePost(posts._id)}>
-                  favorite
-                </span>
-                <p>1 Like</p>
+                {
+                  posts.likes.includes(JSON.parse(localStorage.getItem("user"))._id) 
+                  ?
+                  (
+                    <span className="material-symbols-outlined material-symbols-outlined-red" onClick={()=> unlikePost(posts._id)}>
+                      favorite
+                    </span>
+                  )
+                  :
+                  (
+                    <span className="material-symbols-outlined" onClick={()=> likePost(posts._id)}>
+                      favorite
+                    </span>
+                  )
+                }
+                
+                <p>{posts.likes.length} Likes</p>
                 <p>{posts.body}</p>
               </div>
 
