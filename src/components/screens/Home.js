@@ -1,6 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import '../styles/Home.css'
 import {useNavigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 export default function Home() {
 
@@ -9,6 +11,12 @@ export default function Home() {
   const [data, setData] = useState([])
   const [comment, setComment] = useState("")
   const [show, setShow] = useState(false)
+  const [item, setItem] = useState([])
+
+  //Toast functions
+  const notifyA = (data)=> toast.error(data)
+  const notifyB = (data)=> toast.success(data)
+  
 
   useEffect(() => {
     const token = localStorage.getItem("jwt")
@@ -29,11 +37,12 @@ export default function Home() {
   })
 
   //to show and hide all comments
-  const toggleComment = ()=> {
+  const toggleComment = (posts)=> {
     if(show){
       setShow(false);
     }else{
       setShow(true);
+      setItem(posts)
     }
   }
   
@@ -98,6 +107,16 @@ export default function Home() {
       })
     }).then(res=> res.json())
     .then((result)=>{
+      const newData = data.map((posts)=>{
+        if(posts._id === result._id){
+          return result
+        }else{
+          return posts
+        }
+      })
+      setData(newData)
+      setComment("")
+      notifyB("Comment Posted ")
       console.log(result);
     })
   }
@@ -141,7 +160,7 @@ export default function Home() {
                 
                 <p>{posts.likes.length} Likes</p>
                 <p>{posts.body}</p>
-                <p style={{fontWeight: "bold", cursor: "pointer"}} onClick={toggleComment}>View all comments</p>
+                <p style={{fontWeight: "bold", cursor: "pointer"}} onClick= {()=>{toggleComment(posts)}}>View all comments</p>
               </div>
 
               {/* add comments */}
@@ -165,7 +184,7 @@ export default function Home() {
         <div className="showComment">
           <div className="container">
             <div className="postPic">
-              <img src="http://res.cloudinary.com/itsnitishkumar/image/upload/v1681737254/a4klusjsrznkavvtx4ml.png" alt="" />
+              <img src={item.photo} alt="" />
             </div>
 
             <div className="details">
@@ -175,33 +194,25 @@ export default function Home() {
                 <div className="card-pic">
                   <img src="https://plus.unsplash.com/premium_photo-1664302511310-a0fd2e0cfead?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uJTIwc3F1YXJlfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
                 </div>
-                <h5>Ramesh</h5>
+                <h5>{item.postedBy.name} </h5>
               </div>
 
               {/* comment section */}
               <div className="comment-section" style={{borderBottom: "1px solid #00000029"}}>
-                <p className="comm">
-                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
-                  <span className="commentText">Awsome Pic</span>
-                </p>
-                <p className="comm">
-                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
-                  <span className="commentText">Awsome Pic</span>
-                </p>
-                <p className="comm">
-                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
-                  <span className="commentText">Awsome Pic</span>
-                </p>
-                <p className="comm">
-                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
-                  <span className="commentText">Awsome Pic</span>
-                </p>
+                {item.comments.map((comment)=>{
+                  return (
+                  <p className="comm">
+                    <span className="commenter" style={{fontWeight: "bolder"}}>{comment.postedBy.name}</span>
+                    <span className="commentText">{comment.comment}</span>
+                  </p>)
+
+                })}
               </div>
 
               {/* card content */}
               <div className="card-content">
-                <p>2 Likes</p>
-                <p>awesome post</p>
+                <p>{item.likes.length} Likes</p>
+                <p>{item.body}</p>
               </div>
 
               {/* add comments */}
@@ -211,7 +222,10 @@ export default function Home() {
                   </span>
                   <input type="text" name="" id="" placeholder='Add a comment' value={comment} onChange={(e)=>setComment(e.target.value)}/>
                   <button className="comment" 
-                  // onClick={()=>makeComment(comment, posts._id)}
+                  onClick={()=>{
+                    makeComment(comment, item._id)
+                    toggleComment()
+                  }}
                   >Post</button>
               </div>
 
