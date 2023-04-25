@@ -8,6 +8,7 @@ export default function Home() {
 
   const [data, setData] = useState([])
   const [comment, setComment] = useState("")
+  const [show, setShow] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("jwt")
@@ -26,6 +27,15 @@ export default function Home() {
   .then(result=> setData(result))
   .catch(err => console.log(err))
   })
+
+  //to show and hide all comments
+  const toggleComment = ()=> {
+    if(show){
+      setShow(false);
+    }else{
+      setShow(true);
+    }
+  }
   
   const likePost = (id)=>{
     fetch("http://localhost:5001/like", {
@@ -131,6 +141,7 @@ export default function Home() {
                 
                 <p>{posts.likes.length} Likes</p>
                 <p>{posts.body}</p>
+                <p style={{fontWeight: "bold", cursor: "pointer"}} onClick={toggleComment}>View all comments</p>
               </div>
 
               {/* add comments */}
@@ -139,11 +150,82 @@ export default function Home() {
                   Mood
                 </span>
                 <input type="text" name="" id="" placeholder='Add a comment' value={comment} onChange={(e)=>setComment(e.target.value)}/>
-                <button className="comment" onClick={()=>makeComment(comment, posts._id)}>Post</button>
+                <button className="comment" 
+                onClick={()=>makeComment(comment, posts._id)}
+                >
+                  Post
+                </button>
               </div>
             </div>
         )
       })}
+
+      {/* show comment */}
+      { show && (
+        <div className="showComment">
+          <div className="container">
+            <div className="postPic">
+              <img src="http://res.cloudinary.com/itsnitishkumar/image/upload/v1681737254/a4klusjsrznkavvtx4ml.png" alt="" />
+            </div>
+
+            <div className="details">
+
+              {/* card header */}
+              <div className="card-header" style={{borderBottom: "1px solid #00000029"}}>
+                <div className="card-pic">
+                  <img src="https://plus.unsplash.com/premium_photo-1664302511310-a0fd2e0cfead?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uJTIwc3F1YXJlfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
+                </div>
+                <h5>Ramesh</h5>
+              </div>
+
+              {/* comment section */}
+              <div className="comment-section" style={{borderBottom: "1px solid #00000029"}}>
+                <p className="comm">
+                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
+                  <span className="commentText">Awsome Pic</span>
+                </p>
+                <p className="comm">
+                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
+                  <span className="commentText">Awsome Pic</span>
+                </p>
+                <p className="comm">
+                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
+                  <span className="commentText">Awsome Pic</span>
+                </p>
+                <p className="comm">
+                  <span className="commenter" style={{fontWeight: "bolder"}}>Ramesh </span>
+                  <span className="commentText">Awsome Pic</span>
+                </p>
+              </div>
+
+              {/* card content */}
+              <div className="card-content">
+                <p>2 Likes</p>
+                <p>awesome post</p>
+              </div>
+
+              {/* add comments */}
+              <div className="add-comment">
+                  <span className="material-symbols-outlined">
+                    Mood
+                  </span>
+                  <input type="text" name="" id="" placeholder='Add a comment' value={comment} onChange={(e)=>setComment(e.target.value)}/>
+                  <button className="comment" 
+                  // onClick={()=>makeComment(comment, posts._id)}
+                  >Post</button>
+              </div>
+
+            </div>
+          </div>
+          <div className="close-comment" onClick={()=>{
+            toggleComment();
+          }}>
+            <span className="material-symbols-outlined material-symbols-outlined-comment">
+              close
+            </span>
+          </div>
+        </div>)
+      }
       </div>
   )
 }
