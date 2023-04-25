@@ -7,6 +7,7 @@ export default function Home() {
   const navigate = useNavigate()
 
   const [data, setData] = useState([])
+  const [comment, setComment] = useState("")
 
   useEffect(() => {
     const token = localStorage.getItem("jwt")
@@ -24,7 +25,7 @@ export default function Home() {
   }).then(res=>res.json())
   .then(result=> setData(result))
   .catch(err => console.log(err))
-  },[])
+  })
   
   const likePost = (id)=>{
     fetch("http://localhost:5001/like", {
@@ -70,6 +71,23 @@ export default function Home() {
         }
       })
       setData(newData)
+      console.log(result);
+    })
+  }
+
+  const makeComment = (text, id)=>{
+    fetch("http://localhost:5001/comment", {
+      method: "put",
+      headers: {
+        "Content-Type" : "application/json",
+        "Authorization" : "Bearer " + localStorage.getItem("jwt")
+      },
+      body: JSON.stringify({
+        text: text,
+        postId: id
+      })
+    }).then(res=> res.json())
+    .then((result)=>{
       console.log(result);
     })
   }
@@ -120,8 +138,8 @@ export default function Home() {
                 <span className="material-symbols-outlined">
                   Mood
                 </span>
-                <input type="text" name="" id="" placeholder='Add a comment'/>
-                <button className="comment">Post</button>
+                <input type="text" name="" id="" placeholder='Add a comment' value={comment} onChange={(e)=>setComment(e.target.value)}/>
+                <button className="comment" onClick={()=>makeComment(comment, posts._id)}>Post</button>
               </div>
             </div>
         )
