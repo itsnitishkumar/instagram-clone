@@ -34,7 +34,7 @@ export default function Home() {
   }).then(res=>res.json())
   .then(result=> setData(result))
   .catch(err => console.log(err))
-  })
+  },[])
 
   //to show and hide all comments
   const toggleComment = (posts)=> {
