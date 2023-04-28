@@ -3,16 +3,17 @@ import logo from '../../images/Insta_logo.png'
 import '../styles/Navbar.css'
 import {Link} from 'react-router-dom'
 import { LoginContext } from '../../context/LoginContext'
-
+import { useNavigate } from 'react-router-dom'
 
 export default function Navbar({login}) {
 
+  const navigate = useNavigate()
   const {setModalOpen} = useContext(LoginContext)
 
   
   return (
     <div className='navbar'>
-        <img src={logo} alt="" />
+        <img src={logo} alt="" onClick={()=> {navigate("/")}}/>
         <ul className='nav-menu'>
           {localStorage.getItem("jwt") ? (
             <>
