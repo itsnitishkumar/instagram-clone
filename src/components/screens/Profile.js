@@ -38,10 +38,11 @@ export default function Profile() {
         <div className="profile-pic">
           <img src="https://plus.unsplash.com/premium_photo-1664302511310-a0fd2e0cfead?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uJTIwc3F1YXJlfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
         </div>
+        {/* profile data */}
         <div className="profile-data">
           <h1>{ JSON.parse(localStorage.getItem("user")).name}</h1>
           <div className="profile-info" style={{display: "flex"}}>
-            <p>40 posts</p>
+            <p>{pic.length} post</p>
             <p>40 followers</p>
             <p>40 following</p>
           </div>
