@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 
 export default function UserProfile() {
 
+  var picLink = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
   const { userid } = useParams()
   const [isFollow, setIsFollow] = useState(false)
   const [user, setUser] = useState("")
@@ -70,7 +71,7 @@ export default function UserProfile() {
       {/* profile frame */}
       <div className="profile-frame">
         <div className="profile-pic">
-          <img src="https://plus.unsplash.com/premium_photo-1664302511310-a0fd2e0cfead?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uJTIwc3F1YXJlfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
+          <img src={user.Photo ? user.Photo : picLink} alt="" />
         </div>
         {/* profile-data */}
         <div className="profile-data">

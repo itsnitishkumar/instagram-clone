@@ -1,13 +1,17 @@
 import React,{useState, useEffect} from 'react'
 import '../styles/Profile.css'
 import PostDetail from './PostDetail'
+import ProfilePic from './ProfilePic'
 
 
 export default function Profile() {
 
+  var picLink = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
   const [pic, setPic] = useState([])
   const [show, setShow] = useState(false)
   const [posts, setPosts] = useState([])
+  const [user, setUser] = useState("")
+  const [changePic, setChangePic] = useState(false)
 
   const toggleDetails = (posts)=> {
      if(show){
@@ -18,15 +22,25 @@ export default function Profile() {
     }
   }
 
+  const changeProfile = ()=>{
+    if(changePic){
+      setChangePic(false)
+    }else{
+      setChangePic(true)
+    }
+  }
+
+
   useEffect(() => {
-    fetch("http://localhost:5001/myposts", {
+    fetch(`http://localhost:5001/user/${JSON.parse(localStorage.getItem("user"))._id}`, {
       headers: {
         Authorization: "Bearer "+ localStorage.getItem("jwt")
       }
     }).then(res=> res.json())
     .then((result)=> {
       console.log(result);
-      setPic(result)
+      setPic(result.post)
+      setUser(result.user)
     })
   }, [])
   
@@ -36,15 +50,15 @@ export default function Profile() {
       {/* profile frame */}
       <div className="profile-frame">
         <div className="profile-pic">
-          <img src="https://plus.unsplash.com/premium_photo-1664302511310-a0fd2e0cfead?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29uJTIwc3F1YXJlfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
+          <img onClick={changeProfile} src={user.Photo ? user.Photo : picLink} alt="" />
         </div>
         {/* profile data */}
         <div className="profile-data">
           <h1>{ JSON.parse(localStorage.getItem("user")).name}</h1>
           <div className="profile-info" style={{display: "flex"}}>
-            <p>{pic.length} post</p>
-            <p>40 followers</p>
-            <p>40 following</p>
+            <p>{pic ? pic.length : "o"} post</p>
+            <p>{user.followers ? user.followers.length : "0"} followers</p>
+            <p>{user.following ? user.following.length : "0"} following</p>
           </div>
         </div>
       </div>
@@ -62,6 +76,10 @@ export default function Profile() {
 
       {show &&
         <PostDetail item={posts} toggleDetails={toggleDetails}/>
+      }
+
+      {
+        changePic && <ProfilePic changeProfile={changeProfile}/>
       }
 
     </div>
