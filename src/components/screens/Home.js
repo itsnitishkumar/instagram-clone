@@ -127,7 +127,7 @@ export default function Home() {
       {/* card */}
       {data.map((posts)=>{
         return (
-          <div className="card">
+          <div className="card" key={posts._id}>
             {/* card header */}
               <div className="card-header">
                 <div className="card-pic">
