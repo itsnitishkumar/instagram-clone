@@ -14,6 +14,7 @@ export default function Profile() {
   const [changePic, setChangePic] = useState(false)
 
   const toggleDetails = (posts)=> {
+    // console.log(posts);
      if(show){
       setShow(false);
     }else{
@@ -74,7 +75,7 @@ export default function Profile() {
       </div>
 
       {show &&
-        <PostDetail item={posts} toggleDetails={toggleDetails}/>
+        <PostDetail item={posts} user={user} toggleDetails={toggleDetails}/>
       }
 
       {
