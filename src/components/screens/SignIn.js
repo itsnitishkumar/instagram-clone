@@ -47,7 +47,6 @@ export default function SignIn() {
         setUserLogin(true)
         navigate('/');
       }
-      console.log('Success:', data);
     })
       .catch((error) => {
         console.error('Error:', error);
